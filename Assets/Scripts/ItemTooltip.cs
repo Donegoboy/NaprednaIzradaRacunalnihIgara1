@@ -65,7 +65,7 @@ public class ItemTooltip : MonoBehaviour
         if (item.ItemType == "gear" && item.Gear != null)
         {
             GearData g = item.Gear;
-            type = SlotName(g.Slot);
+            type = SlotName(g.ItemType);
             if (g.Rarity == "magic") nameColor = new Color(0.15f, 0.3f, 0.75f);
             if (g.Rarity == "rare") nameColor = new Color(0.78f, 0.45f, 0.02f);
             if (g.Armour != 0) stats += green + "+" + g.Armour + " Armour</color>\n";

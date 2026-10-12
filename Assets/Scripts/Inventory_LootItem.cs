@@ -7,7 +7,7 @@ using TMPro;
 public class Inventory_LootItem : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public string ItemName;
-    public string ItemType; // weapon, potion, gear
+    public ItemTypeEnum ItemType; // weapon, potion, gear
     public WeaponData Weapon;
     public GearData Gear;
 
@@ -27,24 +27,33 @@ public class Inventory_LootItem : MonoBehaviour, IPointerClickHandler, IPointerE
     }
 
     //u koji equipment slot ide oprema
-    public static GameObject SlotFor(Player_Inventory inv, string slot)
+    public static GameObject SlotFor(Player_Inventory inv, ItemTypeEnum slot)
     {
-        if (slot == "head") return inv.HeadSlot;
-        if (slot == "armour") return inv.ArmourSlot;
-        if (slot == "gloves") return inv.GloveSlot;
-        if (slot == "boots") return inv.BootsSlot;
-        if (slot == "ring") return inv.RingSlot;
-        if (slot == "amulet") return inv.AmuletSlot;
+        switch (slot)
+        {
+            case ItemTypeEnum.Boots:
+                return inv.BootsSlot;
+            case ItemTypeEnum.Head:
+                return inv.HeadSlot;
+            case ItemTypeEnum.Chest:
+                return inv.ArmourSlot;
+            case ItemTypeEnum.Gloves:
+                return inv.GloveSlot;
+            case ItemTypeEnum.Ring:
+                return inv.RingSlot;
+            case ItemTypeEnum.Necklace:
+                return inv.AmuletSlot;
+        }
         return null;
     }
 
     public bool IsEquipped()
     {
         Player_Inventory inv = GameObject.Find("GameManager").GetComponent<Player_Inventory>();
-        if (ItemType == "weapon") return transform.parent == inv.WeaponSlot.transform;
+        if (ItemType.Equals(ItemTypeEnum.Weapon)) return transform.parent == inv.WeaponSlot.transform;
         if (ItemType == "gear" && Gear != null)
         {
-            GameObject slot = SlotFor(inv, Gear.Slot);
+            GameObject slot = SlotFor(inv, Gear.ItemType);
             return slot != null && transform.parent == slot.transform;
         }
         return false;
@@ -99,7 +108,7 @@ public class Inventory_LootItem : MonoBehaviour, IPointerClickHandler, IPointerE
         }
         else if (ItemType == "gear" && Gear != null)
         {
-            GameObject gearSlot = SlotFor(inv, Gear.Slot);
+            GameObject gearSlot = SlotFor(inv, Gear.ItemType);
             if (gearSlot == null) return;
             if (transform.parent == gearSlot.transform)
             {
