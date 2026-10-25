@@ -1,8 +1,9 @@
-
 using System.Collections.Generic;
 using System;
 
-public class Stat 
+//Jedan stat (npr. Armour). Value = BaseValue + svi modifieri (oprema, buffovi...).
+//Modifier se veze uz izvor (source) da se moze maknuti kad se izvor makne (unequip).
+public class Stat
 {
     public StatType Type { get; private set; }
     public float Value { get; private set; }
@@ -12,11 +13,11 @@ public class Stat
 
     private List<(object source, float value)> _mods = new();
 
-    public Stat (StatType type, float value, float baseValue)
+    public Stat(StatType type, float baseValue)
     {
         Type = type;
-        Value = value;
         BaseValue = baseValue;
+        Value = baseValue;
     }
 
     public void AddModifier(object source, float value)
@@ -27,8 +28,10 @@ public class Stat
 
     public void RemoveFrom(object source)
     {
-        _mods.RemoveAll(m => m.source == source);
-        Recalculate();
+        if (_mods.RemoveAll(m => m.source == source) > 0)
+        {
+            Recalculate();
+        }
     }
 
     private void Recalculate()
@@ -43,6 +46,7 @@ public class Stat
     }
 }
 
+//Enumi se spremaju kao broj! Nove vrijednosti dodavati samo na kraj.
 public enum StatType
 {
     Health = 0,
