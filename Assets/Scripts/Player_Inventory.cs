@@ -20,6 +20,19 @@ public class Player_Inventory : MonoBehaviour
     public GameObject BootsSlot;
     public GameObject BagSlot;
     public GameObject AmuletSlot;
+    public GameObject Ring2Slot;
+
+    //svi slotovi na liku koji imaju EquipSlot (main hand = WeaponSlot, off hand = ShieldSlot)
+    public List<EquipSlot> EquipSlots()
+    {
+        List<EquipSlot> list = new List<EquipSlot>();
+        GameObject[] all = { HeadSlot, ArmourSlot, GloveSlot, BootsSlot, AmuletSlot, RingSlot, Ring2Slot, WeaponSlot, ShieldSlot };
+        foreach (GameObject go in all)
+        {
+            if (go != null && go.GetComponent<EquipSlot>() != null) list.Add(go.GetComponent<EquipSlot>());
+        }
+        return list;
+    }
 
     public GameObject InventoryGrid;
     public GameObject InventorySlot;
@@ -96,8 +109,8 @@ public class Player_Inventory : MonoBehaviour
     // Ispusta item iz inventorija na pod
     private void DropItemHandler(GameObject item)
     {
-        GameObject.Instantiate(item.GetComponentInChildren<Drag_and_drop>().DropItem, new Vector3(_player.transform.position.x, _player.transform.position.y - 1f, -2f), Quaternion.identity);
+        //TODO: bacit item na pod kao loot vrecu (stari Drag_and_drop.DropItem je obrisan)
         RectTransform.Destroy(item.gameObject);
-        Debug.Log("No free slots in inventory! Items are droped!");
+        Debug.Log("No free slots in inventory! Items are destroyed!");
     }
 }

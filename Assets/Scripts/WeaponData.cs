@@ -2,15 +2,12 @@ using UnityEngine;
 
 //Podaci o oruzju. Animacije napada se kod equipa zamjene u animatoru (AnimatorOverrideController).
 [CreateAssetMenu(fileName = "NewWeapon", menuName = "Game/Weapon Data")]
-public class WeaponData : ScriptableObject
+public class WeaponData : EquippableData
 {
-    public string WeaponName = "Weapon";
-    public string WeaponType = "sword"; // sword, axe, spear, unarmed...
-    public int Damage = 1;
+    //ime, ikona, Damage i EquipType (OneHanded / TwoHanded) dolaze iz EquippableData i ItemData
 
     [Header("Visuals")]
     public GameObject Model;          // model koji se pojavi u ruci
-    public Sprite Icon;               // ikona u inventoryju
     public Vector3 HoldOffset;        // fino podesavanje polozaja u ruci
     public Vector3 HoldRotation;
     public GameObject HeavyAttackVFX; // npr. slash efekt za AOE napad
